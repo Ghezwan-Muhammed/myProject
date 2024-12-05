@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+    <div class="order-confirmation">
+        <h1>Order Confirmed!</h1>
+        <p>You have successfully ordered {{ order.quantity }} copy(ies) of "{{ order.book.title }}".</p>
+        <p>Total Price: ${{ order.total_price }}</p>
+        <p>Remaining stock: {{ order.book.stock }}</p>
+        <a href="{% url 'book_list' %}">Back to book list</a>
+    </div>
+{% endblock %}

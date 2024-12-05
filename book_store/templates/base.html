@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bookstore{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <div class="container">
+            <h1 style="color: #fff;">Bookstore</h1>
+            <nav>
+                <ul>
+                    <li><button class="nav-btn"><a href="{% url 'book_list' %}">Home</a></button></li>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <p><b>Welcome {{ user.get_username }}, </b><button class="nav-btn"><a>Logout</a></button> </p>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li><button class="nav-btn"><a href="{% url 'login' %}">Login</a></button></li>
+                    <li><button class="nav-btn"><a href="{% url 'register' %}">Sign Up</a></button></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="content-wrapper">
+            {% block content %}
+            <!-- Your page content here -->
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="color: #333;">
+        <div class="footer-content">
+            <p style="color: #fff;">&copy; 2024 Bookstore, All Rights Reserved</p>
+        </div>
+    </footer>
+
+</body>
+</html>

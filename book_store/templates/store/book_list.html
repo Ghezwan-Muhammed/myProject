@@ -1,0 +1,27 @@
+<!-- book_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Book List - Bookstore{% endblock %}
+
+{% block content %}
+    <!-- Featured Books Section -->
+    <section class="featured-books">
+        <div class="container">
+            <h2>Featured Books</h2>
+            <div class="book-grid">
+                {% for book in books %}
+                    <div class="book-item">
+                        <img src="{% if book.image %}{{ book.image.url }}{% else %}/media/book_images/default.jpg{% endif %}" alt="{{ book.title }}">
+                        <h3>{{ book.title }}</h3>
+                        <p>Author: {{ book.author }}</p>
+                        <p>Price: ${{ book.price }}</p>
+                        <p>Stock: {{ book.stock }} available</p>
+                        <a href="{% url 'book_detail' book.id %}" class="buy-btn">Buy Now</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+

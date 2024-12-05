@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }} - Bookstore{% endblock %}
+
+{% block content %}
+    <div class="book-detail">
+        <h1>{{ book.title }}</h1>
+        
+        {% if book.image %}
+            <img src="{{ book.image.url }}" alt="{{ book.title }}" class="book-detail-image"/>
+        {% else %}
+            <img src="/media/book_images/default.jpg" alt="Default Image" class="book-detail-image"/>
+        {% endif %}
+        
+        <div class="book-description">
+            <p><strong>Author:</strong> {{ book.author.name }}</p>
+            <p>{{ book.description }}</p>
+            <p><strong>Price:</strong> ${{ book.price }}</p>
+            <p><strong>Stock:</strong> {{ book.stock }}</p>
+        </div>
+        
+        {% if user.is_authenticated %}
+            {% if book.stock > 0 %}
+                <form method="post" action="{% url 'place_order' book.id %}">
+                    {% csrf_token %}
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" value="1" min="1" max="{{ book.stock }}">
+                    <input type="submit" value="Order">
+                </form>
+            {% else %}
+                <p>Sorry, this book is out of stock.</p>
+            {% endif %}
+        {% else %}
+            <p>You need to <a href="{% url 'login' %}">log in</a> to place an order.</p>
+        {% endif %}
+    </div>
+{% endblock %}
